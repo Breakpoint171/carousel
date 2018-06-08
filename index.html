@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+        }
+        ul{
+            list-style: none;
+            padding: 0;
+        }
+
+        .outer{
+            margin: 40px auto;
+            height: 470px;
+            width: 600px;
+            position: relative;
+        }
+        .img li{
+            position: absolute;
+            top: 0;
+            left: 0;
+
+        }
+        .number{
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            bottom: 20px;
+        }
+        .number li{
+            display: inline-block;
+            height: 20px;
+            width: 20px;
+            background-color: #b4b4b4;
+            color: white;
+            text-align: center;
+            line-height: 20px;
+            border-radius: 20%;
+            margin: 0 10px;
+        }
+        .btn{
+            position: absolute;
+            height: 40px;
+            width: 30px;
+            background-color: #d4d4d4;
+            color: white;
+            text-align: center;
+            line-height: 40px;
+            top: 50%;
+            margin-top: -50px;
+            display: none;
+        }
+
+        .left-btn{
+            left: 0;
+
+        }
+        .right-btn{
+            right: 0;
+        }
+        .outer:hover .btn{
+            display: block;
+            cursor: pointer;
+        }
+        .current{
+            background-color: red!important;
+        }
+
+    </style>
+</head>
+<body>
+<div class="outer">
+    <ul class="img">
+        <li style="z-index: 100"><a><img src="img/1.jpg"></a></li>
+        <li style="z-index: 99"><a><img src="img/2.jpg"></a></li>
+        <li style="z-index: 98"><a><img src="img/3.jpg"></a></li>
+    </ul>
+
+    <ul class="number" style="z-index: 101">
+        <li class="current">1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+    <div class="left-btn btn" style="z-index: 101"> < </div>
+    <div class="right-btn btn" style="z-index: 101"> > </div>
+</div>
+
+<script src="jquery-3.3.1.js"></script>
+<script>
+    $(".number li").mouseover(function () {
+        $(this).css("cursor","pointer").addClass("current").siblings().removeClass("current");
+        i = $(this).index();
+        $(".img li").eq(i).fadeIn(1000).siblings().fadeOut(1000);
+
+    })
+    var time = setInterval(move_R,1500);
+    var i = 0
+    function move_R() {
+        i++;
+        if(i == $(".img li").length){
+            i=0;
+        }
+        $(".number li").eq(i).addClass("current").siblings().removeClass("current");
+
+        $(".img li").eq(i).stop().fadeIn(1000).siblings().stop().fadeOut(1000);
+    }
+
+     function move_L() {
+
+        if(i == 0){
+            i = $(".img li").length;
+        }
+        i--;
+        $(".number li").eq(i).addClass("current").siblings().removeClass("current");
+
+        $(".img li").eq(i).stop().fadeIn(1000).siblings().stop().fadeOut(1000);
+    }
+
+    $(".outer").hover(function () {
+        clearInterval(time);
+    },function () {
+        time = setInterval(move_R,1500);
+    })
+    
+    $(".right-btn").click(function () {
+        move_R()
+    })
+    $(".left-btn").click(function () {
+        move_L()
+    })
+
+</script>
+
+</body>
+</html>
